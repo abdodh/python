@@ -1,116 +1,176 @@
-from tkinter import *
-#from tkinter import ttk
-from random import *
-def linux():
-    root = Tk()
-    root.geometry('300x300')
-    root.title('dehini abdo')
-    def main():
-        print(dd1.set(randrange(10)))
-    def uu1():
-        print(dd2.set(randrange(10)))
-    def uu2():
-        print(dd3.set(randrange(10)))
-    def uu3():
-        print(dd4.set(randrange(10)))
-    def uu4():
-        print(dd5.set(randrange(10)))
-    def uu5():
-        print(dd6.set(randrange(10)))
-    def uu6():
-        print(dd7.set(randrange(10)))
-    def uu7():
-        print(dd8.set(randrange(10)))
-    def uu8():
-        print(dd9.set(randrange(10)))
-    def koko():
-        print(dd1.set(""))
-        print(dd2.set(""))
-        print(dd3.set(""))
-        print(dd4.set(""))
-        print(dd5.set(""))
-        print(dd6.set(""))
-        print(dd7.set(""))
-        print(dd8.set(""))
-        print(dd9.set(""))
-
-
-    dd1 = StringVar()
-    dd2 = StringVar()
-    dd3 = StringVar()
-    dd4 = StringVar()
-    dd5 = StringVar()
-    dd6 = StringVar()
-    dd7 = StringVar()
-    dd8 = StringVar()
-    dd9 = StringVar()
-    ##########################"
-    dd77 = StringVar()
-    #########################
-    oop = Button(root,text='',textvariable=dd1,command=main)
-    oop.place(x=0, y=0, width=80, height=80)
-    lolo = Button(root,text='',textvariable=dd2,command=uu1)
-    lolo.place(x=0, y=80, width=80, height=80)
-    mp = Button(root,text='',textvariable=dd3,command=uu2)
-    mp.place(x=0, y=160, width=80, height=80)
-    ##################################"
-    op = Button(root,text='',textvariable=dd4,command=uu3)
-    op.place(x=80, y=0, width=80, height=80)
-    llo = Button(root,text='',textvariable=dd5,command=uu4)
-    llo.place(x=80, y=80, width=80, height=80)
-    p = Button(root,text='',textvariable=dd6,command=uu5)
-    p.place(x=80, y=160, width=80, height=80)
-    ################################"
-    oo = Button(root,text='',textvariable=dd7,command=uu6)
-    oo.place(x=160, y=0, width=80, height=80)
-    lol = Button(root,text='',textvariable=dd8,command=uu7)
-    lol.place(x=160, y=80, width=80, height=80)
-    mps = Button(root,text='',textvariable=dd9,command=uu8)
-    mps.place(x=160, y=160, width=80, height=80)
-    ########################################"
-    mpsss = Label(root, text='clear ====>')
-    mpsss.place(x=50, y=245)
-
-    mpss = Button(root,text='clear',textvariable=dd77,command=koko)
-    mpss.place(x=180, y=245, width=50, height=20)
-
-linux()
-mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"""
+ Show how to fire bullets.
+ 
+ Sample Python/Pygame Programs
+ Simpson College Computer Science
+ http://programarcadegames.com/
+ http://simpson.edu/computer-science/
+ 
+ Explanation video: http://youtu.be/PpdJjaiLX6A
+"""
+import pygame
+import random
+ 
+# Define some colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+ 
+# --- Classes
+ 
+ 
+class Block(pygame.sprite.Sprite):
+    """ This class represents the block. """
+    def __init__(self, color):
+        # Call the parent class (Sprite) constructor
+        super().__init__()
+ 
+        self.image = pygame.Surface([20, 15])
+        self.image.fill(color)
+ 
+        self.rect = self.image.get_rect()
+ 
+ 
+class Player(pygame.sprite.Sprite):
+    """ This class represents the Player. """
+ 
+    def __init__(self):
+        """ Set up the player on creation. """
+        # Call the parent class (Sprite) constructor
+        super().__init__()
+ 
+        self.image = pygame.Surface([20, 20])
+        self.image.fill(RED)
+ 
+        self.rect = self.image.get_rect()
+ 
+    def update(self):
+        """ Update the player's position. """
+        # Get the current mouse position. This returns the position
+        # as a list of two numbers.
+        pos = pygame.mouse.get_pos()
+ 
+        # Set the player x position to the mouse x position
+        self.rect.x = pos[0]
+ 
+ 
+class Bullet(pygame.sprite.Sprite):
+    """ This class represents the bullet . """
+    def __init__(self):
+        # Call the parent class (Sprite) constructor
+        super().__init__()
+ 
+        self.image = pygame.Surface([4, 10])
+        self.image.fill(BLACK)
+ 
+        self.rect = self.image.get_rect()
+ 
+    def update(self):
+        """ Move the bullet. """
+        self.rect.y -= 3
+ 
+ 
+# --- Create the window
+ 
+# Initialize Pygame
+pygame.init()
+ 
+# Set the height and width of the screen
+screen_width = 700
+screen_height = 400
+screen = pygame.display.set_mode([screen_width, screen_height])
+ 
+# --- Sprite lists
+ 
+# This is a list of every sprite. All blocks and the player block as well.
+all_sprites_list = pygame.sprite.Group()
+ 
+# List of each block in the game
+block_list = pygame.sprite.Group()
+ 
+# List of each bullet
+bullet_list = pygame.sprite.Group()
+ 
+# --- Create the sprites
+ 
+for i in range(50):
+    # This represents a block
+    block = Block(BLUE)
+ 
+    # Set a random location for the block
+    block.rect.x = random.randrange(screen_width)
+    block.rect.y = random.randrange(350)
+ 
+    # Add the block to the list of objects
+    block_list.add(block)
+    all_sprites_list.add(block)
+ 
+# Create a red player block
+player = Player()
+all_sprites_list.add(player)
+ 
+# Loop until the user clicks the close button.
+done = False
+ 
+# Used to manage how fast the screen updates
+clock = pygame.time.Clock()
+ 
+score = 0
+player.rect.y = 370
+ 
+# -------- Main Program Loop -----------
+while not done:
+    # --- Event Processing
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+ 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            # Fire a bullet if the user clicks the mouse button
+            bullet = Bullet()
+            # Set the bullet so it is where the player is
+            bullet.rect.x = player.rect.x
+            bullet.rect.y = player.rect.y
+            # Add the bullet to the lists
+            all_sprites_list.add(bullet)
+            bullet_list.add(bullet)
+ 
+    # --- Game logic
+ 
+    # Call the update() method on all the sprites
+    all_sprites_list.update()
+ 
+    # Calculate mechanics for each bullet
+    for bullet in bullet_list:
+ 
+        # See if it hit a block
+        block_hit_list = pygame.sprite.spritecollide(bullet, block_list, True)
+ 
+        # For each block hit, remove the bullet and add to the score
+        for block in block_hit_list:
+            bullet_list.remove(bullet)
+            all_sprites_list.remove(bullet)
+            score += 1
+            print(score)
+ 
+        # Remove the bullet if it flies up off the screen
+        if bullet.rect.y < -10:
+            bullet_list.remove(bullet)
+            all_sprites_list.remove(bullet)
+ 
+    # --- Draw a frame
+ 
+    # Clear the screen
+    screen.fill(WHITE)
+ 
+    # Draw all the spites
+    all_sprites_list.draw(screen)
+ 
+    # Go ahead and update the screen with what we've drawn.
+    pygame.display.flip()
+ 
+    # --- Limit to 20 frames per second
+    clock.tick(60)
+ 
+pygame.quit()
